@@ -179,6 +179,21 @@ requirements_ansible_dev:
 		$(VENV_BASE)/ansible/bin/pip install pytest mock; \
 	fi
 
+# start
+requirements_custom_envs:
+	mkdir -p $(VENV_BASE)
+
+poc_ansible_repo:
+	virtualenv -p python3 $(VENV_BASE)/poc_ansible_repo
+	cat requirements/poc_ansible_repo.txt | $(VENV_BASE)/poc_ansible_repo/bin/pip install -r /dev/stdin
+
+poc_ansible_cloud:
+	virtualenv -p python3 $(VENV_BASE)/poc_ansible_cloud
+	cat requirements/poc_ansible_cloud.txt | $(VENV_BASE)/poc_ansible_cloud/bin/pip install -r /dev/stdin
+
+requirements_poc: requirements_custom_envs poc_ansible_repo poc_ansible_cloud
+# end
+
 # Install third-party requirements needed for AWX's environment.
 # this does not use system site packages intentionally
 requirements_awx: virtualenv_awx
